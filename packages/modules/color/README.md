@@ -200,14 +200,20 @@ const output = code({
 
 #### `registerLang(name, descriptor)`
 
-Register a new language for syntax highlighting:
+Register a new language for syntax highlighting
 
-```typescript
+```ts
 import { registerLang } from "@monitext/color";
 import python from "highlight.js/lib/languages/python";
 
 registerLang("python", python);
 ```
+
+#### ⚠️ Important Considerations
+
+- This uses **highlight.js** under the hood, so it is naturally a dependency.
+- Some package managers (like **npm** or **yarn**) are forgiving and will allow importing it even if it’s not explicitly declared in your project, because it exists as a dependency of `@monitext/color`.
+- Strict package managers (like **pnpm**) require that **highlight.js** be explicitly declared as a dependency in your project for this to work correctly.
 
 ### Utility Functions
 
