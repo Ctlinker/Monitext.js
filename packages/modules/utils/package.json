@@ -1,7 +1,7 @@
 {
 	"name": "@monitext/utils",
 	"version": "0.0.0",
-	"description": "",
+	"description": "A lightweight collection of everyday code utilities for JavaScript/TypeScript",
 	"exports": {
 		".": {
 			"types": "./dist/main.d.ts",
@@ -10,11 +10,30 @@
 		},
 		"./package.json": "./package.json"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Ctlinker/Monitext.js.git",
+		"directory": "packages/modules/utils"
+	},
 	"scripts": {
+		"build": "pnpm run typecheck && pnpm run bundle",
+		"typecheck": "pnpm dlx tsc --noEmit -p ./tsconfig.build.json",
 		"bundle": "pnpm dlx tsx ./build.ts"
 	},
-	"keywords": [],
-	"author": "",
+	"keywords": [
+		"utils",
+		"utilities",
+		"helpers",
+		"monitext",
+		"time",
+		"conversion",
+		"dfs",
+		"array",
+		"object",
+		"typescript",
+		"javascript"
+	],
+	"author": "Ctlinker",
 	"license": "Apache-2.0",
 	"packageManager": "pnpm@10.14.0"
 }
