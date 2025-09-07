@@ -1,0 +1,11 @@
+{
+    "extends": "@monitext-devtools/tsconfig",
+    "include": ["./src/**/*"],
+    "compilerOptions": {
+        "paths": {
+            "@lib":  ["./src/lib/"],
+            "@lib/": ["./src/lib/"],
+            "@cmds/": ["./src/lib/"]
+        }
+    }
+}

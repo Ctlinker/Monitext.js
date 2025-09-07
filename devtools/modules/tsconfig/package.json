@@ -1,0 +1,11 @@
+{
+  "name": "@monitext-devtools/tsconfig",
+  "version": "1.0.0",
+  "main": "./tsconfig.json",
+  "private": true,
+  "description": "Base tsconfig for monitext projects",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.13.1"
+}
