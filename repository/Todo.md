@@ -4,7 +4,7 @@
 
 - [x] Re-implement the color library
 - [ ] Re-implement the event library
-- [ ] Re-implement the utils library
+- [x] Re-implement the utils library
 
 ## DevTools
 
