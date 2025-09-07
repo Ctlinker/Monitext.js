@@ -1,7 +1,7 @@
 {
 	"name": "@monitext/color",
 	"version": "0.0.0",
-	"description": "A color utility library for Monitext",
+	"description": "A lightweight library for text coloring, highlighting, and formatting in the console. Works with Node.js, Deno, Bun, and browsers.",
 	"exports": {
 		".": {
 			"types": "./dist/main.d.ts",
@@ -16,16 +16,27 @@
 		"typecheck": "pnpm --package=typescript dlx tsc --noEmit -p ./tsconfig.build.json",
 		"test": "pnpm dlx vitest"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Ctlinker/Monitext.js.git",
+		"directory": "packages/modules/color"
+	},
 	"keywords": [
-		"color",
-		"utility",
 		"monitext",
+		"color",
+		"console-color",
+		"text-formatting",
+		"highlight",
+		"ansi",
+		"cli",
+		"terminal",
+		"string-format",
 		"typescript",
 		"javascript",
-		"browsers",
 		"nodejs",
+		"deno",
 		"bun",
-		"deno"
+		"browser"
 	],
 	"author": "Ctlinker",
 	"license": "Apache-2.0",
