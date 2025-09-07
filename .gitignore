@@ -1,3 +1,12 @@
+#Editor
+.vscode
+.zed
+
+#Lock
+**/pnpm-lock.yaml
+**/package-lock.json
+
+
 # Logs
 logs
 *.log
