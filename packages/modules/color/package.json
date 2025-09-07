@@ -1,0 +1,45 @@
+{
+	"name": "@monitext/color",
+	"version": "0.0.0",
+	"description": "A color utility library for Monitext",
+	"exports": {
+		".": {
+			"types": "./dist/main.d.ts",
+			"import": "./dist/lib.min.bundle.noext.mjs",
+			"require": "./dist/lib.min.bundle.noext.cjs"
+		},
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"build": "pnpm run typecheck && pnpm run test && pnpm run bundle",
+		"bundle": "pnpm dlx tsx build.ts",
+		"typecheck": "pnpm --package=typescript dlx tsc --noEmit -p ./tsconfig.build.json",
+		"test": "pnpm dlx vitest"
+	},
+	"keywords": [
+		"color",
+		"utility",
+		"monitext",
+		"typescript",
+		"javascript",
+		"browsers",
+		"nodejs",
+		"bun",
+		"deno"
+	],
+	"author": "Ctlinker",
+	"license": "Apache-2.0",
+	"packageManager": "pnpm@10.14.0",
+	"files": [
+		"dist",
+		"LICENCE",
+		"README.md",
+		"THIRD_PARTY_LICENSES"
+	],
+	"devDependencies": {},
+	"dependencies": {
+		"chalk": "^5.6.0",
+		"highlight.js": "^11.11.1",
+		"html-parse-stringify": "^3.0.1"
+	}
+}
