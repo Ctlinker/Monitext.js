@@ -1,0 +1,21 @@
+{
+	"name": "@monitext/typson",
+	"version": "0.0.0",
+	"description": "typson is a schema to type library",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"monitext",
+		"typescript",
+		"schema-to-type",
+		"json-schema"
+	],
+	"author": "Ctlinker <linkeris404@gmali.com>",
+	"license": "Apache-2.0",
+	"packageManager": "pnpm@10.14.0",
+	"devDependencies": {
+		"@monitext/typsert": "workspace:*"
+	}
+}
