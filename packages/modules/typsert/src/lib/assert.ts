@@ -6,18 +6,15 @@
  * - Otherwise, returns union of failure messages
  */
 export type Assert<T extends readonly (readonly [string, boolean])[]> =
-	T extends readonly (readonly [string, true])[]
-		? true
+	T extends readonly (readonly [string, true])[] ? true
 		: {
-				[K in keyof T]: T[K] extends readonly [
-					infer Label extends string,
-					infer Result extends boolean,
-				]
-					? Result extends false
-						? `Assertion failed: ${Label}`
-						: never
-					: never;
-			}[number];
+			[K in keyof T]: T[K] extends readonly [
+				infer Label extends string,
+				infer Result extends boolean,
+			] ? Result extends false ? `Assertion failed: ${Label}`
+				: never
+				: never;
+		}[number];
 
 /**
  * Convenience strict checks
@@ -33,10 +30,8 @@ export type CheckAssertions<T extends readonly (readonly [string, boolean])[]> =
 		[K in keyof T]: T[K] extends readonly [
 			infer Label extends string,
 			infer Result extends boolean,
-		]
-			? Result extends true
-				? { status: 'pass'; label: Label }
-				: { status: 'fail'; label: Label }
+		] ? Result extends true ? { status: "pass"; label: Label }
+			: { status: "fail"; label: Label }
 			: never;
 	};
 
@@ -47,7 +42,12 @@ export type CheckAssertions<T extends readonly (readonly [string, boolean])[]> =
 export declare function TypeAssert<
 	T extends readonly (readonly [string, boolean])[],
 >(
-	param?: T extends readonly (readonly [string, true])[]
-		? true
+	param?: T extends readonly (readonly [string, true])[] ? true
 		: CheckAssertions<T>,
 ): CheckAssertions<T>;
+
+/**
+ * Runtime no-op function for IDE feedback
+ * - Allows inspection of results in tooltips
+ */
+export const Typsert = TypeAssert;
