@@ -14,7 +14,7 @@
 		"build": "pnpm run typecheck && pnpm run test && pnpm run bundle",
 		"bundle": "pnpm dlx tsx build.ts",
 		"typecheck": "pnpm --package=typescript dlx tsc --noEmit -p ./tsconfig.build.json",
-		"test": "pnpm dlx vitest"
+		"test": "pnpm dlx vitest run"
 	},
 	"repository": {
 		"type": "git",
@@ -38,12 +38,12 @@
 		"bun",
 		"browser"
 	],
-	"author": "Ctlinker",
+	"author": "Ctlinker <linkeris404@gmali.com>",
 	"license": "Apache-2.0",
 	"packageManager": "pnpm@10.14.0",
 	"files": [
 		"dist",
-		"LICENCE",
+		"LICENSE",
 		"README.md",
 		"THIRD_PARTY_LICENSES"
 	],
