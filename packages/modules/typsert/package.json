@@ -1,25 +1,25 @@
 {
-  "name": "@monitext/typsert",
-  "version": "0.0.0",
-  "description": "typsert is a type-level testing library for typescript",
-  "main": "./src/main.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "monitext",
-    "typsert",
-    "typescript",
-    "type-assertion",
-    "type-testing",
-    "compile-time",
-    "type-checking",
-    "type-validation"
-  ],
-  "author": "Ctlinker <linkeris404@gmali.com>",
-  "license": "Apache-2.0",
-  "packageManager": "pnpm@10.14.0",
-  "devDependencies": {
-    "typescript": "^5.9.2"
-  }
+	"name": "@monitext/typsert",
+	"version": "0.0.0",
+	"description": "typsert is a type-level testing library for typescript",
+	"main": "./src/main.ts",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"monitext",
+		"typsert",
+		"typescript",
+		"type-assertion",
+		"type-testing",
+		"compile-time",
+		"type-checking",
+		"type-validation"
+	],
+	"author": "Ctlinker <linkeris404@gmali.com>",
+	"license": "Apache-2.0",
+	"packageManager": "pnpm@10.14.0",
+	"devDependencies": {
+		"typescript": "^5.9.2"
+	}
 }

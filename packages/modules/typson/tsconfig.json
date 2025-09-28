@@ -3,9 +3,7 @@
 	"include": ["./src/**/*", "./test/**/*"],
 	"compilerOptions": {
 		"paths": {
-			"@lib": [
-				"./src/main.ts"
-			]
+			"@lib": ["./src/main.ts"]
 		}
 	}
 }

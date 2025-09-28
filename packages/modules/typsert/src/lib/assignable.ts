@@ -1,4 +1,4 @@
-import { Not } from "./not";
+import { Not } from './not';
 
 /**
  * Check whether a given type `T` is assignable to a source `U`
@@ -17,11 +17,14 @@ export type NotAssignable<T, U> = Not<Assignable<T, U>>;
 /**
  * Check whether all types in tuple `T` are assignable to `U`
  */
-export type Assignables<T extends any[], U> = T extends
-    [infer First, ...infer Rest]
-    ? Assignable<First, U> extends true ? Assignables<Extract<Rest, any[]>, U> // ensure Rest is still a tuple
-    : false
-    : true; // empty tuple → vacuously true
+export type Assignables<T extends any[], U> = T extends [
+	infer First,
+	...infer Rest,
+]
+	? Assignable<First, U> extends true
+		? Assignables<Extract<Rest, any[]>, U> // ensure Rest is still a tuple
+		: false
+	: true; // empty tuple → vacuously true
 
 /**
  * Check whether all types in tuple `T` are not assignable to `U`
