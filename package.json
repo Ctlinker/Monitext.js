@@ -6,7 +6,8 @@
     "scripts": "mtxt-scripts",
     "test": "pnpm dlx vitest",
     "format": "prettier --write 'packages/**/*.{js,ts,json,md}'",
-    "check-format": "prettier --check 'packages/**/*.{js,ts,json,md}'"
+    "check-format": "prettier --check 'packages/**/*.{js,ts,json,md}'",
+    "changeset": "changeset"
   },
   "keywords": [
     "monitoring",
@@ -28,7 +29,8 @@
     "prettier": "^3.6.2",
     "tsx": "4.20.5",
     "typescript": "^5.9.2",
-    "vitest": "3.1.2"
+    "vitest": "3.1.2" , 
+    "@changesets/cli": "^2.29.7"
   },
   "dependencies": {
     "@monitext-devtools/bundler": "workspace:*",
