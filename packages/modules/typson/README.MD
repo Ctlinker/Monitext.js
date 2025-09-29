@@ -192,30 +192,40 @@ type ApiResponse = HandleSchema<typeof apiResponseSchema>;
 ### Schema Builders (`T`)
 
 #### `T.string(options?)`
+
 Creates a string schema.
+
 - `options.enum?: string[]` - Array of allowed string values
 - `options.format?: string` - String format constraint
 - `options.default?: string` - Default value
 - `options.description?: string` - Schema description
 
 #### `T.number(options?)`
+
 Creates a number schema.
+
 - `options.enum?: number[]` - Array of allowed numeric values
 - `options.default?: number` - Default value
 - `options.description?: string` - Schema description
 
 #### `T.boolean(options?)`
+
 Creates a boolean schema.
+
 - `options.enum?: boolean[]` - Array of allowed boolean values
 - `options.default?: boolean` - Default value
 - `options.description?: string` - Schema description
 
 #### `T.null(options?)`
+
 Creates a null schema.
+
 - `options.description?: string` - Schema description
 
 #### `T.object(options)`
+
 Creates an object schema.
+
 - `options.properties: Record<string, TSchema>` - Object property schemas
 - `options.required?: string[]` - Array of required property names
 - `options.additionalProperties?: boolean` - Allow additional properties
@@ -223,34 +233,44 @@ Creates an object schema.
 - `options.description?: string` - Schema description
 
 #### `T.array(options?)`
+
 Creates an array schema.
+
 - `options.prefixItems?: TSchema[]` - Tuple-like schemas for first N items
 - `options.items?: TSchema | boolean` - Schema for additional items
 - `options.default?` - Default array value
 - `options.description?: string` - Schema description
 
 #### `T.enum(values, options?)`
+
 Creates an enum schema from an array of values.
+
 - `values: readonly (string | number | boolean | null)[]` - Enum values
 - `options.default?` - Default enum value
 - `options.description?: string` - Schema description
 
 #### `T.oneOf(schemas, options?)`
+
 Creates a union schema.
+
 - `schemas: TSchema[]` - Array of schemas to union
 - `options.default?` - Default value
 - `options.description?: string` - Schema description
 
 #### `T.literal(value)`
+
 Creates a single-value enum schema.
+
 - `value: string | number | boolean | null` - The literal value
 
 ### Type Handlers
 
 #### `HandleSchema<S>`
+
 Main type handler that converts any schema to its TypeScript type equivalent.
 
 #### Individual Handlers
+
 - `HandleString<S>` - Handles string schemas
 - `HandleNumber<S>` - Handles number schemas
 - `HandleBoolean<S>` - Handles boolean schemas
