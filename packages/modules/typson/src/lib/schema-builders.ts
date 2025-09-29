@@ -1,7 +1,8 @@
-import { HandleSchema } from './handler-types';
+import { HandleSchema } from "./handler-types";
 
 import type {
 	ArraySchema,
+	AssertionSchema,
 	BooleanSchema,
 	EnumSchema,
 	NullSchema,
@@ -10,7 +11,7 @@ import type {
 	OneOfSchema,
 	StringSchema,
 	TSchema,
-} from './schema-types';
+} from "./schema-types";
 
 /**
  * Lightweight Zod-like schema builders that produce JSON-Schema-like objects
@@ -30,10 +31,10 @@ export const T = {
 	string(opts?: {
 		enum?: string[];
 		default?: string;
-		format?: StringSchema['format'];
+		format?: StringSchema["format"];
 		description?: string;
 	}): StringSchema {
-		return { type: 'string', ...opts };
+		return { type: "string" as const, ...opts };
 	},
 
 	/**
@@ -44,7 +45,7 @@ export const T = {
 		default?: number;
 		description?: string;
 	}): NumberSchema {
-		return { type: 'number', ...opts };
+		return { type: "number" as const, ...opts };
 	},
 
 	/**
@@ -56,7 +57,7 @@ export const T = {
 		description?: string;
 	}): BooleanSchema {
 		return {
-			type: 'boolean',
+			type: "boolean" as const,
 			enum: opts?.enum as any,
 			default: opts?.default,
 			description: opts?.description,
@@ -67,7 +68,7 @@ export const T = {
 	 * Create a null schema.
 	 */
 	null(opts?: { description?: string }): NullSchema {
-		return { type: 'null', ...(opts ?? {}) };
+		return { type: "null", ...(opts ?? {}) };
 	},
 
 	/**
@@ -76,14 +77,16 @@ export const T = {
 	 * - optional extra options: required, additionalProperties, default, description
 	 */
 	object<
-		T extends Record<string, TSchema>,
-		U extends (keyof T extends string ? keyof T : never)[] = [],
+		T extends Record<string, TSchema | AssertionSchema>,
+		U extends (keyof T)[] = [],
 	>(opts: {
-		properties: T;
-		additionalProperties?: boolean;
+		readonly properties: T;
+		readonly additionalProperties?: boolean;
 		required?: U;
-		default?: HandleSchema<{ type: 'object'; properties: T }>;
-		description?: string;
+		default?: HandleSchema<
+			{ type: "object"; properties: T; required: U }
+		>;
+		readonly description?: string;
 	}) {
 		const {
 			properties,
@@ -92,11 +95,15 @@ export const T = {
 			default: d,
 			description,
 		} = opts;
+
 		const schema = {
-			type: 'object',
-			properties,
-			...(additionalProperties === undefined ? {} : { additionalProperties }),
-			...(required ? { required } : {}),
+			type: "object" as const,
+			properties: properties as T,
+			...(additionalProperties === undefined
+				? {}
+				: { additionalProperties }),
+			...(required === undefined ? {} : { required }) as U extends
+				undefined ? {} : { required: U },
 			...(d === undefined ? {} : { default: d }),
 			...(description ? { description } : {}),
 		};
@@ -109,17 +116,23 @@ export const T = {
 	 * - prefixItems: tuple-like schemas for the first N positions
 	 * - items: schema or boolean (true = allow anything, false = disallow additional)
 	 */
-	array(opts?: {
-		prefixItems?: TSchema[];
-		items?: boolean | TSchema;
-		default?: unknown;
+	array<T extends TSchema[], U extends TSchema>(opts?: {
+		readonly prefixItems?: T;
+		readonly items?: U;
+		readonly default?: HandleSchema<
+			{ type: "array"; prefixItems: T; items: U }
+		>;
 		description?: string;
-	}): ArraySchema {
+	}) {
 		const { prefixItems, items, default: d, description } = opts ?? {};
-		const schema: ArraySchema = {
-			type: 'array',
-			...(prefixItems ? { prefixItems } : {}),
-			...(items === undefined ? {} : { items }),
+
+		const schema = {
+			type: "array" as const,
+			...(prefixItems ? { prefixItems } : {}) as T extends undefined ? {}
+				: { readonly prefixItems: T },
+			...(items === undefined ? {} : { items }) as U extends undefined
+				? {}
+				: { items: U },
 			...(d === undefined ? {} : { default: d }),
 			...(description ? { description } : {}),
 		};

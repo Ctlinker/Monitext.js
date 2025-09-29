@@ -1,48 +1,48 @@
 export interface StringSchema {
-	type: 'string';
+	readonly type: "string";
 	enum?: string[];
 	default?: string;
 	format?:
-		| 'date-time' // ISO 8601 date-time string
-		| 'date' // ISO 8601 date string
-		| 'time' // ISO 8601 time string
-		| 'email' // email address
-		| 'idn-email' // internationalized email address
-		| 'hostname' // valid hostname
-		| 'idn-hostname' // internationalized hostname
-		| 'ipv4' // IPv4 address
-		| 'ipv6' // IPv6 address
-		| 'uri' // URI (Uniform Resource Identifier)
-		| 'uri-reference' // URI or relative reference
-		| 'iri' // Internationalized URI (IRI)
-		| 'iri-reference' // IRI or relative reference
-		| 'uuid' // universally unique identifier (UUID)
-		| 'json-pointer' // JSON Pointer (RFC 6901)
-		| 'regex'; // regular expression pattern
+		| "date-time" // ISO 8601 date-time string
+		| "date" // ISO 8601 date string
+		| "time" // ISO 8601 time string
+		| "email" // email address
+		| "idn-email" // internationalized email address
+		| "hostname" // valid hostname
+		| "idn-hostname" // internationalized hostname
+		| "ipv4" // IPv4 address
+		| "ipv6" // IPv6 address
+		| "uri" // URI (Uniform Resource Identifier)
+		| "uri-reference" // URI or relative reference
+		| "iri" // Internationalized URI (IRI)
+		| "iri-reference" // IRI or relative reference
+		| "uuid" // universally unique identifier (UUID)
+		| "json-pointer" // JSON Pointer (RFC 6901)
+		| "regex"; // regular expression pattern
 	description?: string;
 }
 
 export interface NumberSchema {
-	type: 'number';
+	readonly type: "number";
 	enum?: number[];
 	default?: number;
 	description?: string;
 }
 
 export interface BooleanSchema {
-	type: 'boolean';
+	readonly type: "boolean";
 	enum?: readonly [boolean];
 	default?: boolean;
 	description?: string;
 }
 
 export interface NullSchema {
-	type: 'null';
+	readonly type: "null";
 	description?: string;
 }
 
 export interface ObjectSchema {
-	type: 'object';
+	readonly type: "object";
 	properties: Record<string, Schema>;
 	additionalProperties?: boolean;
 	required?: string[];
@@ -51,7 +51,7 @@ export interface ObjectSchema {
 }
 
 export interface ArraySchema {
-	type: 'array';
+	readonly type: "array";
 	prefixItems?: Schema[];
 	items?: boolean | Schema;
 	default?: unknown;
