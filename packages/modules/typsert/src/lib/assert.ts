@@ -19,8 +19,12 @@ export type Assert<T extends readonly (readonly [string, boolean])[]> =
 /**
  * Convenience strict checks
  */
-export type IsTrue<T extends true> = T;
-export type IsFalse<T extends false> = T;
+export declare function IsTrue<T extends true>(params?: T): T;
+
+/**
+ * Convenience strict checks
+ */
+export declare function IsFalse<T extends false>(params?: T): T;
 
 /**
  * Enhanced assertion utilities for complex patterns
