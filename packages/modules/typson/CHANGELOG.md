@@ -1,5 +1,13 @@
 # @monitext/typson
 
+## 0.1.0
+
+### Minor Changes
+
+- Added `T.Infer<S>` utility for schema to type conversion
+
+  > deleted `T.null`, `T.enum` and replaced by `T.literals`
+
 ## 0.0.2
 
 ### Patch Changes
