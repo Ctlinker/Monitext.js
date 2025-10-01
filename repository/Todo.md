@@ -6,11 +6,12 @@
 - [ ] Re-implement the event library
 - [x] Re-implement the utils library
 - [ ] Re-implement the schema to type library
-- [ ] Re-implement the type testing library
+- [x] Re-implement the type testing library
 
 ## DevTools
 
 - [ ] Refactor bundling system
+- [ ] Consider adding Syncpack
 
 ## Documentation
 
