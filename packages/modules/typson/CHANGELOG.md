@@ -1,5 +1,19 @@
 # @monitext/typson
 
+## 0.0.2
+
+### Patch Changes
+
+- Stabilized `ToType` conversion for schema builders:
+  - `T.string`
+  - `T.number`
+  - `T.boolean`
+  - `T.null`
+  - `T.enum`
+  - `T.literal`
+
+  > Extended type coverage for these builders as well.
+
 ## 0.0.1
 
 ### Patch Changes

@@ -28,47 +28,84 @@ export const T = {
 	/**
 	 * Create a string schema.
 	 */
-	string(opts?: {
-		enum?: string[];
-		default?: string;
-		format?: StringSchema["format"];
-		description?: string;
-	}): StringSchema {
-		return { type: "string" as const, ...opts };
+	string<
+		E extends readonly string[],
+		Desc extends string | undefined = undefined,
+		Format extends StringSchema["format"] | undefined = undefined,
+		Def extends (E extends string[] ? (E[number]) : string) | undefined =
+			undefined,
+	>(opts?: {
+		enum?: [...E];
+		default?: Def;
+		format?: Format;
+		description?: Desc;
+	}) {
+		return { type: "string" as const, ...opts } as {
+			type: "string";
+			enum: E extends any[] ? E : undefined;
+			default: Def;
+			format: Format;
+			description: Desc;
+		};
 	},
 
 	/**
 	 * Create a number schema.
 	 */
-	number(opts?: {
-		enum?: number[];
-		default?: number;
-		description?: string;
-	}): NumberSchema {
-		return { type: "number" as const, ...opts };
+	number<
+		E extends readonly number[],
+		Def extends (E extends number[] ? E[number] : number) | undefined =
+			undefined,
+		Desc extends string | undefined = undefined,
+	>(opts?: {
+		enum?: [...E];
+		default?: Def;
+		description?: Desc;
+	}) {
+		return { type: "number" as const, ...opts } as {
+			type: "number";
+			enum: E extends any[] ? E : undefined;
+			default: Def;
+			description: Desc;
+		};
 	},
 
 	/**
 	 * Create a boolean schema.
 	 */
-	boolean(opts?: {
-		enum?: boolean[] | readonly [boolean];
-		default?: boolean;
-		description?: string;
-	}): BooleanSchema {
+	boolean<
+		E extends readonly boolean[],
+		Def extends (E extends any[] ? E[number] : boolean) | undefined =
+			undefined,
+		Desc extends string | undefined = undefined,
+	>(opts?: {
+		enum?: [...E];
+		default?: Def;
+		description?: Desc;
+	}) {
 		return {
-			type: "boolean" as const,
-			enum: opts?.enum as any,
+			type: "boolean",
+			enum: opts?.enum,
 			default: opts?.default,
 			description: opts?.description,
+		} as {
+			type: "boolean";
+			enum: E extends boolean[] ? E : undefined;
+			description: Desc;
+			default: Def;
 		};
 	},
 
 	/**
 	 * Create a null schema.
 	 */
-	null(opts?: { description?: string }): NullSchema {
-		return { type: "null", ...(opts ?? {}) };
+	null<Desc extends string | undefined = undefined>(
+		opts?: { description?: Desc },
+	) {
+		return { type: "null", ...(opts ?? {}) } as {
+			type: "null";
+			description: Desc;
+		};
 	},
 
 	/**
@@ -143,17 +180,21 @@ export const T = {
 	 * Create an enum schema from an array of literals.
 	 * Accepts string | number | boolean | null values.
 	 */
-	enum(
-		values: readonly (string | number | boolean | null)[],
-		opts?: {
-			default?: string | number | boolean | null;
-			description?: string;
+	enum<
+		E extends readonly (string | number | boolean | null)[],
+		Def extends (E[number]) | undefined = undefined,
+		Desc extends string | undefined = undefined,
+	>(
+		opts: {
+			enum: [...E];
+			default?: Def;
+			description?: Desc;
 		},
-	): EnumSchema {
-		return {
-			enum: values,
-			...(opts?.default === undefined ? {} : { default: opts.default }),
-			...(opts?.description ? { description: opts.description } : {}),
+	) {
+		return { ...opts } as {
+			enum: [...E];
+			default: Def;
+			description: Desc;
 		};
 	},
 
@@ -174,7 +215,9 @@ export const T = {
 	/**
 	 * Shortcut for literal values (single-value enum)
 	 */
-	literal<T extends string | number | boolean | null>(value: T): EnumSchema {
-		return { enum: [value] };
+	literal<
+		T extends string | number | boolean | null,
+	>(value: T) {
+		return { enum: [value] } as { enum: [T] };
 	},
 };
