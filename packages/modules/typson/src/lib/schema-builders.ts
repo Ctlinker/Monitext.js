@@ -104,38 +104,38 @@ export namespace T {
 	 * - optional extra options: required, additionalProperties, default, description
 	 */
 	export function object<
-		T extends Record<string, TSchema | AssertionSchema>,
-		U extends (keyof T)[] = [],
+		T extends {
+			[K in keyof T]: T[K] extends TSchema | AssertionSchema ? T[K]
+				: never;
+		},
+		Req extends readonly (keyof T)[] = readonly [],
+		Desc extends string | undefined = undefined,
+		Add extends boolean | undefined = undefined,
+		Def extends
+			| HandleSchema<
+				{ type: "object"; properties: T; required: [...Req] }
+			>
+			| undefined = undefined,
 	>(opts: {
 		readonly properties: T;
-		readonly additionalProperties?: boolean;
-		required?: U;
-		default?: HandleSchema<
-			{ type: "object"; properties: T; required: U }
-		>;
-		readonly description?: string;
+		readonly additionalProperties?: Add;
+		readonly required?: [...Req];
+		default?: Def;
+		description?: Desc;
 	}) {
-		const {
-			properties,
-			additionalProperties,
-			required,
-			default: d,
-			description,
-		} = opts;
-
 		const schema = {
-			type: "object" as const,
-			properties: properties as T,
-			...(additionalProperties === undefined
-				? {}
-				: { additionalProperties }),
-			...(required === undefined ? {} : { required }) as U extends
-				undefined ? {} : { required: U },
-			...(d === undefined ? {} : { default: d }),
-			...(description ? { description } : {}),
+			type: "object",
+			...opts,
 		};
 
-		return schema;
+		return schema as {
+			type: "object";
+			properties: T;
+			additionalProperties: Add;
+			required: [...Req] extends never[] ? undefined : [...Req];
+			default: Def;
+			description: Desc;
+		};
 	}
 
 	/**

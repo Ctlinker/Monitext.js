@@ -1,5 +1,13 @@
 # @monitext/typson
 
+## 0.1.1
+
+### Patch Changes
+
+- Stabilized `ToType` conversion for schema builder `T.object`
+
+  > Extended Test Coverage for `T.object` (excluding `array` and `oneOf`)
+
 ## 0.1.0
 
 ### Minor Changes
