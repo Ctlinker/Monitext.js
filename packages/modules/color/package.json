@@ -38,7 +38,7 @@
 		"bun",
 		"browser"
 	],
-	"author": "Ctlinker <linkeris404@gmali.com>",
+	"author": "Ctlinker <linkeris404@gmail.com>",
 	"license": "Apache-2.0",
 	"packageManager": "pnpm@10.14.0",
 	"files": [
