@@ -1,5 +1,13 @@
 # @monitext/typsert
 
+## 0.1.1
+
+### Patch Changes
+
+- Fixed issue where `IsTrue` and `IsFalse` were defined as types instead of functions.
+
+  Extended test coverage across all type-level testing utilities.
+
 ## 0.1.0
 
 ### Minor Changes
@@ -36,5 +44,5 @@ when its counterpart was itself true as well.
 Now each positive assertion (Assignables, Equals, Equal, Assignable) has a
 mirrored negative test to guarantee proper inversion.
 
-Ensures Not<T> always flips the assertion result (true ↔ false) reliably and
+Ensures `Not<T>` always flips the assertion result (true ↔ false) reliably and
 limit it's use to bare minimum.
