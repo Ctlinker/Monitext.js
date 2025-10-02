@@ -59,7 +59,7 @@ export interface ArraySchema {
 }
 
 export interface EnumSchema {
-	enum: readonly (string | number | boolean | null)[];
+	enum: (string | number | boolean | null)[];
 	default?: string | number | boolean | null;
 	description?: string;
 }
