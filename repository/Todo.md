@@ -5,7 +5,7 @@
 - [x] Re-implement the color library
 - [ ] Re-implement the event library
 - [x] Re-implement the utils library
-- [ ] Re-implement the schema to type library
+- [x] Re-implement the schema to type library
 - [x] Re-implement the type testing library
 
 ## DevTools

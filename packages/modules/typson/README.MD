@@ -1,10 +1,14 @@
 # @monitext/typson
 
-A lightweight TypeScript schema-to-type library that converts JSON Schema-like objects into TypeScript types at compile time.
+A lightweight TypeScript schema-to-type library that converts JSON Schema-like
+objects into TypeScript types at compile time.
 
 ## Overview
 
-Typson provides a type-safe way to define schemas and automatically infer TypeScript types from them. Unlike runtime validation libraries, Typson focuses purely on compile-time type generation, making it perfect for scenarios where you need strong typing without runtime overhead.
+Typson provides a type-safe way to define schemas and automatically infer
+TypeScript types from them. Unlike runtime validation libraries, Typson focuses
+purely on compile-time type generation, making it perfect for scenarios where
+you need strong typing without runtime overhead.
 
 ## Installation
 
@@ -23,7 +27,7 @@ yarn add @monitext/typson
 Typson provides a fluent API through the `T` object for creating schemas:
 
 ```typescript
-import { T, HandleSchema } from '@monitext/typson';
+import { HandleSchema, T } from "@monitext/typson";
 
 // Basic types
 const stringSchema = T.string();
@@ -48,9 +52,9 @@ const userSchema = T.object({
     id: T.number(),
     name: T.string(),
     email: T.string({ format: "email" }),
-    age: T.number()
+    age: T.number(),
   },
-  required: ['id', 'name']
+  required: ["id", "name"],
 });
 
 type User = HandleSchema<typeof userSchema>;
@@ -64,14 +68,14 @@ Create array schemas with tuple-like behavior or homogeneous arrays:
 ```typescript
 // Homogeneous array
 const numbersSchema = T.array({
-  items: T.number()
+  items: T.number(),
 });
 type Numbers = HandleSchema<typeof numbersSchema>; // number[]
 
 // Tuple with prefix items
 const tupleSchema = T.array({
   prefixItems: [T.string(), T.number(), T.boolean()],
-  items: T.string() // additional items must be strings
+  items: T.string(), // additional items must be strings
 });
 type Tuple = HandleSchema<typeof tupleSchema>; // [string, number, boolean, ...string[]]
 ```
@@ -82,11 +86,11 @@ Define enum types and literal values:
 
 ```typescript
 // Enum from array of values
-const statusSchema = T.enum(['pending', 'approved', 'rejected']);
+const statusSchema = T.enum(["pending", "approved", "rejected"]);
 type Status = HandleSchema<typeof statusSchema>; // 'pending' | 'approved' | 'rejected'
 
 // Single literal value
-const literalSchema = T.literal('hello');
+const literalSchema = T.literal("hello");
 type Literal = HandleSchema<typeof literalSchema>; // 'hello'
 
 // Typed enums on primitives
@@ -103,9 +107,9 @@ const unionSchema = T.oneOf([
   T.string(),
   T.number(),
   T.object({
-    properties: { type: T.literal('object') },
-    required: ['type']
-  })
+    properties: { type: T.literal("object") },
+    required: ["type"],
+  }),
 ]);
 type Union = HandleSchema<typeof unionSchema>; // string | number | { type: 'object' }
 ```
@@ -117,9 +121,9 @@ type Union = HandleSchema<typeof unionSchema>; // string | number | { type: 'obj
 Typson supports various string format constraints:
 
 ```typescript
-const emailSchema = T.string({ format: 'email' });
-const uuidSchema = T.string({ format: 'uuid' });
-const dateSchema = T.string({ format: 'date-time' });
+const emailSchema = T.string({ format: "email" });
+const uuidSchema = T.string({ format: "uuid" });
+const dateSchema = T.string({ format: "date-time" });
 
 // Note: Formats are for documentation/tooling - they don't affect the TypeScript type
 type Email = HandleSchema<typeof emailSchema>; // still `string`
@@ -133,18 +137,18 @@ Add metadata to your schemas:
 const configSchema = T.object({
   properties: {
     host: T.string({
-      default: 'localhost',
-      description: 'Server hostname'
+      default: "localhost",
+      description: "Server hostname",
     }),
     port: T.number({
       default: 3000,
-      description: 'Server port number'
+      description: "Server port number",
     }),
     ssl: T.boolean({
       default: false,
-      description: 'Enable SSL/TLS'
-    })
-  }
+      description: "Enable SSL/TLS",
+    }),
+  },
 });
 ```
 
@@ -162,26 +166,26 @@ const apiResponseSchema = T.object({
           users: T.array({
             items: T.object({
               properties: {
-                id: T.string({ format: 'uuid' }),
+                id: T.string({ format: "uuid" }),
                 profile: T.object({
                   properties: {
                     name: T.string(),
-                    avatar: T.string({ format: 'uri' })
+                    avatar: T.string({ format: "uri" }),
                   },
-                  required: ['name']
-                })
+                  required: ["name"],
+                }),
               },
-              required: ['id', 'profile']
-            })
-          })
+              required: ["id", "profile"],
+            }),
+          }),
         },
-        required: ['users']
+        required: ["users"],
       }),
-      T.null()
+      T.null(),
     ]),
-    error: T.string()
+    error: T.string(),
   },
-  required: ['success']
+  required: ["success"],
 });
 
 type ApiResponse = HandleSchema<typeof apiResponseSchema>;
@@ -282,23 +286,27 @@ Main type handler that converts any schema to its TypeScript type equivalent.
 
 ## Limitations and Constraints
 
-Since Typson operates purely at the TypeScript type level, it has some inherent limitations:
+Since Typson operates purely at the TypeScript type level, it has some inherent
+limitations:
 
-1. **No Runtime Validation**: Schemas don't provide runtime type checking or validation
+1. **No Runtime Validation**: Schemas don't provide runtime type checking or
+   validation
 2. **Type-Level Only**: All processing happens during compilation
 3. **TypeScript Constraints**: Limited by TypeScript's type system capabilities
 4. **No Recursive Types**: Deep recursion may hit TypeScript's recursion limits
-5. **Format Constraints**: String formats are metadata only and don't affect types
+5. **Format Constraints**: String formats are metadata only and don't affect
+   types
 
 ## Comparison with Similar Tools
 
-| Feature | Typson | Zod | TypeBox | JSON Schema |
-|---------|--------|-----|---------|-------------|
-| Runtime validation | ❌ | ✅ | ✅ | ❌ |
-| Type inference | ✅ | ✅ | ✅ | ❌ |
-| Bundle size | Tiny | Large | Medium | N/A |
-| JSON Schema compat | ✅ | Partial | ✅ | ✅ |
-| Performance | Compile-time only | Runtime overhead | Runtime overhead | N/A |
+| Feature            | Typson                                 | Zod                                     | TypeBox                                 | JSON Schema                                 |
+| ------------------ | -------------------------------------- | --------------------------------------- | --------------------------------------- | ------------------------------------------- |
+| Runtime validation | ❌                                     | ✅                                      | ✅                                      | ✅                                          |
+| Type inference     | ✅                                     | ✅                                      | ✅                                      | ❌                                          |
+| Bundle size        | **Tiny**                               | **Large**                               | **Medium**                              | **N/A**                                     |
+| JSON Schema compat | ✅                                     | **Partial**                             | ✅                                      | ✅                                          |
+| Performance        | **Compile-time only** (0 runtime cost) | Runtime overhead                        | Runtime overhead (fast with AJV)        | Depends on validator (AJV is fast)          |
+| Test Coverage      | **100% (type-level, exhaustive)**      | **High** (runtime + partial type tests) | **High** (runtime + schema correctness) | **Spec-defined**, depends on validator impl |
 
 ## Use Cases
 
@@ -312,7 +320,8 @@ Typson is ideal for:
 
 ## Contributing
 
-Contributions are welcome! Please see the main Monitext.js repository for contribution guidelines.
+Contributions are welcome! Please see the main Monitext.js repository for
+contribution guidelines.
 
 ## License
 

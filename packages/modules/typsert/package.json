@@ -4,6 +4,7 @@
 	"description": "typsert is a type-level testing library for typescript",
 	"main": "./src/main.ts",
 	"scripts": {
+		"bundle": "pnpm tsx ./build.ts",
 		"test": "echo \"Testing comprehensive type suite...\" && tsc --version && tsc --noEmit ./test/claude-test/index.ts && echo \"✅ All tests passed successfully!\""
 	},
 	"keywords": [
@@ -16,7 +17,7 @@
 		"type-checking",
 		"type-validation"
 	],
-	"author": "Ctlinker <linkeris404@gmali.com>",
+	"author": "Ctlinker <linkeris404@gmail.com>",
 	"license": "Apache-2.0",
 	"packageManager": "pnpm@10.14.0",
 	"devDependencies": {

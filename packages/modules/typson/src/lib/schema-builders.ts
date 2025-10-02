@@ -24,11 +24,13 @@ import type {
  *     required: ["id"]
  *   });
  */
-export const T = {
+export namespace T {
+	export type Infer<S> = HandleSchema<S>;
+
 	/**
 	 * Create a string schema.
 	 */
-	string<
+	export function string<
 		E extends readonly string[],
 		Desc extends string | undefined = undefined,
 		Format extends StringSchema["format"] | undefined = undefined,
@@ -47,12 +49,12 @@ export const T = {
 			format: Format;
 			description: Desc;
 		};
-	},
+	}
 
 	/**
 	 * Create a number schema.
 	 */
-	number<
+	export function number<
 		E extends readonly number[],
 		Def extends (E extends number[] ? E[number] : number) | undefined =
 			undefined,
@@ -68,12 +70,12 @@ export const T = {
 			default: Def;
 			description: Desc;
 		};
-	},
+	}
 
 	/**
 	 * Create a boolean schema.
 	 */
-	boolean<
+	export function boolean<
 		E extends readonly boolean[],
 		Def extends (E extends any[] ? E[number] : boolean) | undefined =
 			undefined,
@@ -94,93 +96,94 @@ export const T = {
 			description: Desc;
 			default: Def;
 		};
-	},
-
-	/**
-	 * Create a null schema.
-	 */
-	null<Desc extends string | undefined = undefined>(
-		opts?: { description?: Desc },
-	) {
-		return { type: "null", ...(opts ?? {}) } as {
-			type: "null";
-			description: Desc;
-		};
-	},
+	}
 
 	/**
 	 * Create an object schema.
 	 * - `properties` should be a map of name -> TSchema
 	 * - optional extra options: required, additionalProperties, default, description
 	 */
-	object<
-		T extends Record<string, TSchema | AssertionSchema>,
-		U extends (keyof T)[] = [],
+	export function object<
+		T extends {
+			[K in keyof T]: T[K] extends TSchema | AssertionSchema ? T[K]
+				: never;
+		},
+		Req extends readonly (keyof T)[] = readonly [],
+		Desc extends string | undefined = undefined,
+		Add extends boolean | undefined = undefined,
+		Def extends
+			| HandleSchema<
+				{ type: "object"; properties: T; required: [...Req] }
+			>
+			| undefined = undefined,
 	>(opts: {
 		readonly properties: T;
-		readonly additionalProperties?: boolean;
-		required?: U;
-		default?: HandleSchema<
-			{ type: "object"; properties: T; required: U }
-		>;
-		readonly description?: string;
+		readonly additionalProperties?: Add;
+		readonly required?: [...Req];
+		default?: Def;
+		description?: Desc;
 	}) {
-		const {
-			properties,
-			additionalProperties,
-			required,
-			default: d,
-			description,
-		} = opts;
-
 		const schema = {
-			type: "object" as const,
-			properties: properties as T,
-			...(additionalProperties === undefined
-				? {}
-				: { additionalProperties }),
-			...(required === undefined ? {} : { required }) as U extends
-				undefined ? {} : { required: U },
-			...(d === undefined ? {} : { default: d }),
-			...(description ? { description } : {}),
+			type: "object",
+			...opts,
 		};
 
-		return schema;
-	},
+		return schema as {
+			type: "object";
+			properties: T;
+			additionalProperties: Add;
+			required: [...Req] extends never[] ? undefined : [...Req];
+			default: Def;
+			description: Desc;
+		};
+	}
 
 	/**
 	 * Create an array schema.
 	 * - prefixItems: tuple-like schemas for the first N positions
 	 * - items: schema or boolean (true = allow anything, false = disallow additional)
 	 */
-	array<T extends TSchema[], U extends TSchema>(opts?: {
+	export function array<
+		T extends
+			| {
+				[K in keyof T]: T[K] extends TSchema | AssertionSchema ? T[K]
+					: never;
+			}
+			| undefined = undefined,
+		U extends TSchema | AssertionSchema | undefined = undefined,
+		Desc extends string | undefined = undefined,
+		Def extends
+			| HandleSchema<
+				{ type: "array"; prefixItems: T; items: U }
+			>
+			| undefined = undefined,
+	>(opts?: {
 		readonly prefixItems?: T;
 		readonly items?: U;
 		readonly default?: HandleSchema<
 			{ type: "array"; prefixItems: T; items: U }
 		>;
-		description?: string;
+		description?: Desc;
 	}) {
-		const { prefixItems, items, default: d, description } = opts ?? {};
-
 		const schema = {
-			type: "array" as const,
-			...(prefixItems ? { prefixItems } : {}) as T extends undefined ? {}
-				: { readonly prefixItems: T },
-			...(items === undefined ? {} : { items }) as U extends undefined
-				? {}
-				: { items: U },
-			...(d === undefined ? {} : { default: d }),
-			...(description ? { description } : {}),
+			type: "array",
+			...opts,
 		};
-		return schema;
-	},
+
+		return schema as {
+			type: "array";
+			items: U;
+			default: Def;
+			prefixItems: T;
+			description: Desc;
+		};
+	}
 
 	/**
 	 * Create an enum schema from an array of literals.
 	 * Accepts string | number | boolean | null values.
 	 */
-	enum<
+	export function literals<
 		E extends readonly (string | number | boolean | null)[],
 		Def extends (E[number]) | undefined = undefined,
 		Desc extends string | undefined = undefined,
@@ -196,28 +199,42 @@ export const T = {
 			default: Def;
 			description: Desc;
 		};
-	},
+	}
 
 	/**
 	 * Create a oneOf schema (union of schemas).
 	 */
-	oneOf(
-		schemas: TSchema[],
-		opts?: { default?: unknown; description?: string },
-	): OneOfSchema {
+	export function oneOf<
+		T extends {
+			[K in keyof T]: T[K] extends TSchema ? T[K]
+				: never;
+		},
+		Desc extends string | undefined = undefined,
+		Def extends
+			| HandleSchema<
+				{ oneOf: T }
+			>
+			| undefined = undefined,
+	>(
+		schemas: T,
+		opts?: { default?: Def; description?: Desc },
+	) {
 		return {
 			oneOf: schemas,
-			...(opts?.default === undefined ? {} : { default: opts.default }),
-			...(opts?.description ? { description: opts.description } : {}),
+			...opts,
+		} as {
+			oneOf: T;
+			default: Def;
+			description: Desc;
 		};
-	},
+	}
 
 	/**
 	 * Shortcut for literal values (single-value enum)
 	 */
-	literal<
+	export function literal<
 		T extends string | number | boolean | null,
 	>(value: T) {
 		return { enum: [value] } as { enum: [T] };
-	},
-};
+	}
+}

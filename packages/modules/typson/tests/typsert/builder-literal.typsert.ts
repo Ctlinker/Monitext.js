@@ -170,35 +170,16 @@ TypeAssert<[
 ]>(true);
 
 // =============================================================================
-// NULL BUILDER HANDLING
-// =============================================================================
-
-let T6 = T.null({ description: "just a null value" });
-
-type V6 = HandleSchema<typeof T6>;
-
-TypeAssert<[
-    [
-        "Built Null Schema should be strictly typed",
-        Equals<[{
-            type: "null";
-            description: "just a null value";
-        }, typeof T6]>,
-    ],
-    [
-        "Built Null Schema, should be properly converted to type",
-        Equals<[
-            null,
-            V6,
-        ]>,
-    ],
-]>(true);
-
-// =============================================================================
 // ENUM BUILDER HANDLING
 // =============================================================================
 
-let T7 = T.enum({
+let T6 = T.literals({
+    enum: [null],
+});
+
+type V6 = HandleSchema<typeof T6>;
+
+let T7 = T.literals({
     enum: ["expect", "these", "value", "eg:", 1, 2, 3, false],
     default: "expect",
 });
@@ -206,6 +187,10 @@ let T7 = T.enum({
 type V7 = HandleSchema<typeof T7>;
 
 TypeAssert<[
+    [
+        "Singular Enum Schema should properly works",
+        Equals<[null, V6]>,
+    ],
     [
         "Built Enum Schema should be strictly typed",
         Equals<[{
@@ -256,6 +241,29 @@ TypeAssert<[
             Equals<["test", V8]>,
             Equals<[1, V9]>,
             Equals<[true, V10]>,
+        ]>,
+    ],
+]>(true);
+
+// =============================================================================
+// BUILDER INFERENCE CONSISTENCY
+// =============================================================================
+
+TypeAssert<[
+    [
+        "T.Infer<S> Should properly translate the `S` Schema, to it's corresponding type",
+        AllPass<[
+            Equals<[V0, T.Infer<typeof T0>]>,
+            Equals<[V1, T.Infer<typeof T1>]>,
+            Equals<[V2, T.Infer<typeof T2>]>,
+            Equals<[V3, T.Infer<typeof T3>]>,
+            Equals<[V4, T.Infer<typeof T4>]>,
+            Equals<[V5, T.Infer<typeof T5>]>,
+            Equals<[V6, T.Infer<typeof T6>]>,
+            Equals<[V7, T.Infer<typeof T7>]>,
+            Equals<[V8, T.Infer<typeof T8>]>,
+            Equals<[V9, T.Infer<typeof T9>]>,
+            Equals<[V10, T.Infer<typeof T10>]>,
         ]>,
     ],
 ]>(true);
