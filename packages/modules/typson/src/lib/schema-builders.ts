@@ -143,27 +143,40 @@ export namespace T {
 	 * - prefixItems: tuple-like schemas for the first N positions
 	 * - items: schema or boolean (true = allow anything, false = disallow additional)
 	 */
-	export function array<T extends TSchema[], U extends TSchema>(opts?: {
+	export function array<
+		T extends
+			| {
+				[K in keyof T]: T[K] extends TSchema | AssertionSchema ? T[K]
+					: never;
+			}
+			| undefined = undefined,
+		U extends TSchema | AssertionSchema | undefined = undefined,
+		Desc extends string | undefined = undefined,
+		Def extends
+			| HandleSchema<
+				{ type: "array"; prefixItems: T; items: U }
+			>
+			| undefined = undefined,
+	>(opts?: {
 		readonly prefixItems?: T;
 		readonly items?: U;
 		readonly default?: HandleSchema<
 			{ type: "array"; prefixItems: T; items: U }
 		>;
-		description?: string;
+		description?: Desc;
 	}) {
-		const { prefixItems, items, default: d, description } = opts ?? {};
-
 		const schema = {
-			type: "array" as const,
-			...(prefixItems ? { prefixItems } : {}) as T extends undefined ? {}
-				: { readonly prefixItems: T },
-			...(items === undefined ? {} : { items }) as U extends undefined
-				? {}
-				: { items: U },
-			...(d === undefined ? {} : { default: d }),
-			...(description ? { description } : {}),
+			type: "array",
+			...opts,
 		};
-		return schema;
+
+		return schema as {
+			type: "array";
+			items: U;
+			default: Def;
+			prefixItems: T;
+			description: Desc;
+		};
 	}
 
 	/**
@@ -191,14 +204,28 @@ export namespace T {
 	/**
 	 * Create a oneOf schema (union of schemas).
 	 */
-	export function oneOf(
-		schemas: TSchema[],
-		opts?: { default?: unknown; description?: string },
-	): OneOfSchema {
+	export function oneOf<
+		T extends {
+			[K in keyof T]: T[K] extends TSchema ? T[K]
+				: never;
+		},
+		Desc extends string | undefined = undefined,
+		Def extends
+			| HandleSchema<
+				{ oneOf: T }
+			>
+			| undefined = undefined,
+	>(
+		schemas: T,
+		opts?: { default?: Def; description?: Desc },
+	) {
 		return {
 			oneOf: schemas,
-			...(opts?.default === undefined ? {} : { default: opts.default }),
-			...(opts?.description ? { description: opts.description } : {}),
+			...opts,
+		} as {
+			oneOf: T;
+			default: Def;
+			description: Desc;
 		};
 	}
 

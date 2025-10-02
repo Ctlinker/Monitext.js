@@ -1,6 +1,6 @@
 {
 	"name": "@monitext/typson",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "typson is a schema to type library",
 	"main": "index.js",
 	"scripts": {
