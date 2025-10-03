@@ -1,0 +1,29 @@
+name: Release M/Color to NPM
+
+on:
+  push:
+    tags:
+      - '@monitext/color-v*'   # only release tags for color
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]   # only one for release
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm --filter @monitext/color build -r
+
+      - name: Publish
+        run: pnpm --filter @monitext/color publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
