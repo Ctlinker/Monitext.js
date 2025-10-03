@@ -3,7 +3,7 @@ name: Release M/Color to NPM
 on:
   push:
     tags:
-      - '@monitext/color-v*'   # only release tags for color
+      - '@monitext-color-v*'   # only release tags for color
 
 jobs:
   build-and-publish:
