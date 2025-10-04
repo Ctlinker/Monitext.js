@@ -2,19 +2,42 @@
 	"name": "@monitext/typson",
 	"version": "0.1.2",
 	"description": "typson is a schema to type library",
-	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"bundle": "pnpm dlx tsx ./build.ts",
+		"typecheck": "pnpm --package=typescript dlx tsc --noEmit -p ./tsconfig.build.json",
+		"build": "pnpm run typecheck && pnpm bundle"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/main.d.ts",
+			"import": "./dist/lib.min.bundle.mjs",
+			"require": "./dist/lib.min.bundle.cjs"
+		},
+		"./package.json": "./package.json"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Ctlinker/Monitext.js.git",
+		"directory": "packages/modules/typson"
 	},
 	"keywords": [
 		"monitext",
 		"typescript",
 		"schema-to-type",
-		"json-schema"
+		"json-schema",
+		"nodejs",
+		"deno",
+		"bun"
 	],
 	"author": "Ctlinker <linkeris404@gmail.com>",
 	"license": "Apache-2.0",
 	"packageManager": "pnpm@10.14.0",
+	"files": [
+		"dist",
+		"LICENSE",
+		"README.md",
+		"CHANGELOG.md"
+	],
 	"devDependencies": {
 		"@monitext/typsert": "workspace:*"
 	}

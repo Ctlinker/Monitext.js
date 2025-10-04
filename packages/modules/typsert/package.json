@@ -5,7 +5,12 @@
 	"main": "./src/main.ts",
 	"scripts": {
 		"bundle": "pnpm tsx ./build.ts",
-		"test": "echo \"Testing comprehensive type suite...\" && tsc --version && tsc --noEmit ./test/claude-test/index.ts && echo \"✅ All tests passed successfully!\""
+		"typecheck": "echo \"Testing comprehensive type suite...\" && tsc --version && tsc --noEmit ./test/claude-test/index.ts && echo \"✅ All tests passed successfully!\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Ctlinker/Monitext.js.git",
+		"directory": "packages/modules/typsert"
 	},
 	"keywords": [
 		"monitext",

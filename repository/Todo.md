@@ -1,5 +1,10 @@
 # TODO
 
+## Urgent
+
+- [ ] Prepare for inter dependency management hell
+- [ ] Write Github Action for publishing releasable pkg
+
 ## Modules
 
 - [x] Re-implement the color library
