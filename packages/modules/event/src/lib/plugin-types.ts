@@ -1,3 +1,5 @@
+import { Schema, T } from "@monitext/typson";
+
 /**
  * List the possible `kind` of a given plugin
  */
@@ -38,8 +40,8 @@ export type PluginDescriptor<N, O> = {
 /**
  * Plugin Initializer type wrapper
  */
-export type PluginInitializer<S extends PluginType> = {
-    init(ctx: PluginCtx<S>): void;
+export type PluginInitializer<S extends PluginType, X> = {
+    init(ctx: PluginCtx<S>, cfg: T.Infer<X>): void;
 };
 
 /**
@@ -47,6 +49,7 @@ export type PluginInitializer<S extends PluginType> = {
  */
 export type PluginNamespaces<
     S extends PluginType,
+    X,
     N extends string,
     H = Record<
         string,
@@ -55,27 +58,31 @@ export type PluginNamespaces<
 > = {
     namespace?: {
         alias: N;
-        getHandlers(ctx: PluginCtx<S>): H;
+        getHandlers(ctx: PluginCtx<S>, cfg?: T.Infer<X>): H;
     };
 };
 
 /**
  * Infer the availables methods on a plugin, based of it's type
  */
-export type PluginMethods<S extends PluginType, N extends string> = S extends
-    "consumer" ? PluginInitializer<S>
-    : PluginInitializer<S> & PluginNamespaces<S, N>;
+export type PluginMethods<
+    S extends PluginType,
+    O extends unknown,
+    N extends string,
+> = S extends "consumer" ? PluginInitializer<S, O>
+    : PluginInitializer<S, O> & PluginNamespaces<S, O, N>;
 
 /**
  * Creates a type-level plugin's core description
  */
 export type PluginArchitecture<
     N extends string,
-    O extends object | undefined,
+    O extends Schema | undefined,
     P extends PluginDescriptor<N, O>,
     A extends string | undefined,
     X extends PluginMethods<
-        P extends { type: infer Y extends string } ? Y : never,
+        ExtractPluginType<P>,
+        ExtractPluginOption<P>,
         A extends undefined ? never : A
     >,
 > = {
@@ -84,3 +91,11 @@ export type PluginArchitecture<
      */
     [K in keyof (P & X)]: (P & X)[K];
 };
+
+export type ExtractPluginOption<P> = P extends { opts: infer X extends Schema }
+    ? X
+    : undefined;
+
+export type ExtractPluginType<P> = P extends
+    { type: infer Y extends PluginType } ? Y
+    : never;

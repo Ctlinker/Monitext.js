@@ -1,5 +1,9 @@
+import { Schema, T } from "@monitext/typson";
 import {
+    ExtractPluginOption,
+    ExtractPluginType,
     PluginArchitecture,
+    PluginCtx,
     PluginDescriptor,
     PluginMethods,
 } from "./plugin-types";
@@ -9,11 +13,12 @@ import {
  */
 class Plugin<
     N extends string,
-    O extends object | undefined,
+    const O extends Schema | undefined,
     P extends PluginDescriptor<N, O>,
     A extends string | undefined,
     X extends PluginMethods<
-        P extends { type: infer Y extends string } ? Y : never,
+        ExtractPluginType<P>,
+        ExtractPluginOption<P>,
         A extends undefined ? never : A
     >,
 > {
@@ -25,11 +30,12 @@ class Plugin<
  */
 export function createPlugin<
     N extends string,
-    O extends object | undefined,
+    const O extends Schema | undefined,
     P extends PluginDescriptor<N, O>,
     A extends string | undefined,
     X extends PluginMethods<
-        P extends { type: infer Y extends string } ? Y : never,
+        ExtractPluginType<P>,
+        ExtractPluginOption<P>,
         A extends undefined ? never : A
     >,
 >(
@@ -41,10 +47,51 @@ export function createPlugin<
         ...handlers,
     } as PluginArchitecture<N, O, P, A, X>;
 
+    type InstanceOpts = T.Infer<ExtractPluginOption<P>>;
+    type ThisPluginCtx = PluginCtx<ExtractPluginType<P>>;
+    type RealInstanceOpts = InstanceOpts extends never ? null
+        : InstanceOpts;
+
     return class extends Plugin<N, O, P, A, X> {
-        constructor() {
+        constructor(cfg: RealInstanceOpts) {
             super(core);
+            this.congigure(cfg);
         }
+
+        /**
+         * Bus Binding Api, loag the core's initialization function
+         */
+        public activate(ctx: ThisPluginCtx) {
+            let result: any = null;
+            try {
+                result = this.core.init(ctx as any, this.config.store as any);
+            } catch (error) {
+                error;
+                return new Error(
+                    `[@monitext/event]: Erreur while initializing plugin "${this.core.name}", see error cause for more info`,
+                    { cause: error },
+                );
+            }
+        }
+
+        /**
+         * User defined config storage for a running plugin
+         */
+        private config!: {
+            store: RealInstanceOpts;
+        };
+
+        /**
+         * Api for config override
+         */
+        public congigure(param: RealInstanceOpts) {
+            this.config = { store: param };
+        }
+
+        /**
+         * Expose the core of the plugin, on static access
+         */
+        public static readonly core = core;
 
         /**
          * Unique signature used to differentiate set of Plugin instance
@@ -60,16 +107,23 @@ export function createPlugin<
     };
 }
 
+let t = T.object({
+    properties: {
+        "mode": T.literals({ enum: ["json", "dev"] }),
+    },
+});
+
 const LoggerPlugin = createPlugin({
     name: "logger-plugin",
     type: "both",
+    opts: t,
 }, {
-    init(ctx) {
+    init(ctx, cfg) {
         console.log("Logger initialized");
     },
     namespace: {
         alias: "log", // ✅ Typed as 'log' without 'as const'!
-        getHandlers(ctx) {
+        getHandlers(ctx, cfg) {
             return {
                 info(msg: string) {
                     console.log("[INFO]", msg);
@@ -84,3 +138,9 @@ const LoggerPlugin = createPlugin({
         },
     },
 });
+
+new LoggerPlugin({
+    "mode": "json",
+});
+
+type d = T.Infer<typeof t>;
