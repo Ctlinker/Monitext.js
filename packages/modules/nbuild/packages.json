@@ -1,7 +1,7 @@
 {
-    "name": "@monitext/build-x",
+    "name": "@monitext/nbuild",
     "version": "0.0.0",
-    "description": "build-x, is a composable, extensible and PTSD free JavaScript/Typescript building pipeline library",
+    "description": "nbuild, is a composable, extensible and PTSD free JavaScript/Typescript building pipeline library",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,7 +15,7 @@
         "javascript",
         "typescript",
         "PTSD free",
-        "build-ts"
+        "nbuild"
     ],
     "author": "Ctlinker <linkeris404@gmail.com>",
     "license": "Apache-2.0",
