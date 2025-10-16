@@ -2,7 +2,9 @@
 
 ## Introduction
 
-`@monitext/event` is designed as a plug-and-play event system. Its architecture is inspired by **event-driven** and **I/O-like patterns**, offering a flexible, multibus structure for handling complex data flows.
+`@monitext/event` is designed as a plug-and-play event system. Its architecture
+is inspired by **event-driven** and **I/O-like patterns**, offering a flexible,
+multibus structure for handling complex data flows.
 
 ---
 
@@ -61,7 +63,7 @@ const safeAdd = obs.safe(
         }
         return a + b;
     },
-    { level: 0, name: "TestFn" }
+    { level: 0, name: "TestFn" },
 );
 ```
 
@@ -71,26 +73,39 @@ const safeAdd = obs.safe(
 
 ### Monitor
 
-A **Monitor** is a **multibus-like structure** that can host one or multiple endpoints (plugins). Each endpoint lives on its own branch (sub-bus) of the monitor. The **main branch** acts as a broadcast layer, controlling which plugin receives which events.
+A **Monitor** is a **multibus-like structure** that can host one or multiple
+endpoints (plugins). Each endpoint lives on its own branch (sub-bus) of the
+monitor. The **main branch** acts as a broadcast layer, controlling which plugin
+receives which events.
 
-Monitors can have **rules** and **hooks** to constrain or enhance plugin behavior:
+Monitors can have **rules** and **hooks** to constrain or enhance plugin
+behavior:
 
-* **Rules** define how a plugin interacts with the monitor: what events it can receive (all events, specific events, or filtered events).
-* **Hooks** allow intercepting or transforming data during emission or reception by a plugin.
+- **Rules** define how a plugin interacts with the monitor: what events it can
+  receive (all events, specific events, or filtered events).
+- **Hooks** allow intercepting or transforming data during emission or reception
+  by a plugin.
 
 ---
 
 ### Plugin
 
-> Notes: For this architecture to work, plugins must be implemented as **factories** that return `[pluginInstance, config]`. This makes them plug-and-play: instantiation alone is enough to make the plugin usable.
+> Notes: For this architecture to work, plugins must be implemented as
+> **factories** that return `[pluginInstance, config]`. This makes them
+> plug-and-play: instantiation alone is enough to make the plugin usable.
 
-A **plugin** is a self-contained behavior that attaches to a monitor via a context object, typically `{ subscribe, emit, on, userCfg }` passed to its initialization function.
+A **plugin** is a self-contained behavior that attaches to a monitor via a
+context object, typically `{ subscribe, emit, on, userCfg }` passed to its
+initialization function.
 
-Plugins can also expose a **namespace**, which is a function returning helper methods or metadata. For example, the `observer` plugin exposes a namespace in the usage mockup above:
+Plugins can also expose a **namespace**, which is a function returning helper
+methods or metadata. For example, the `observer` plugin exposes a namespace in
+the usage mockup above:
 
 ```ts
 const { observer: obs } = bus.plugins();
 obs.safe(...);
 ```
 
-This namespace allows controlled access to plugin methods while keeping the monitor’s internal state encapsulated.
+This namespace allows controlled access to plugin methods while keeping the
+monitor’s internal state encapsulated.
