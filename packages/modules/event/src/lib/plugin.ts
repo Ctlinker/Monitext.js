@@ -47,8 +47,19 @@ export function createPlugin<
         ...handlers,
     } as PluginArchitecture<N, O, P, A, X>;
 
+    /**
+     * Infer The expected instiation options of a the current plugin
+     */
     type InstanceOpts = T.Infer<ExtractPluginOption<P>>;
+
+    /**
+     * Get the context kind of the current plugin
+     */
     type ThisPluginCtx = PluginCtx<ExtractPluginType<P>>;
+
+    /**
+     * Defer to null To null if no option is to be expected
+     */
     type RealInstanceOpts = InstanceOpts extends never ? null
         : InstanceOpts;
 
@@ -62,22 +73,22 @@ export function createPlugin<
          * Bus Binding Api, loag the core's initialization function
          */
         public activate(ctx: ThisPluginCtx) {
-            let result: any = null;
+            let result = null;
             try {
-                result = this.core.init(ctx as any, this.config.store as any);
+                this.core.init(ctx as any, this.#config.store as any);
             } catch (error) {
-                error;
-                return new Error(
+                result = new Error(
                     `[@monitext/event]: Erreur while initializing plugin "${this.core.name}", see error cause for more info`,
                     { cause: error },
                 );
             }
+            return result;
         }
 
         /**
          * User defined config storage for a running plugin
          */
-        private config!: {
+        #config!: {
             store: RealInstanceOpts;
         };
 
@@ -85,7 +96,7 @@ export function createPlugin<
          * Api for config override
          */
         public congigure(param: RealInstanceOpts) {
-            this.config = { store: param };
+            this.#config = { store: param };
         }
 
         /**
@@ -96,13 +107,13 @@ export function createPlugin<
         /**
          * Unique signature used to differentiate set of Plugin instance
          */
-        private static readonly uniqueSignature = Symbol();
+        static #uniqueSignature = Symbol();
 
         /**
          * Identify a given specifique group of Plugin instance
          */
         public static signature() {
-            return this.uniqueSignature;
+            return this.#uniqueSignature;
         }
     };
 }
