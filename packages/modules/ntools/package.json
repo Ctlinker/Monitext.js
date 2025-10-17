@@ -1,5 +1,5 @@
 {
-	"name": "@monitext/utils",
+	"name": "@monitext/ntools",
 	"version": "0.0.0",
 	"description": "A lightweight collection of everyday code utilities for JavaScript/TypeScript",
 	"exports": {
