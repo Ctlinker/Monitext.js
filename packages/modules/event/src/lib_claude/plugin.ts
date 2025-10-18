@@ -148,32 +148,6 @@ const LoggerPlugin = createPlugin({
     },
 });
 
-export const obsPlugin = createPlugin({
-    name: "obs-plugin",
-    type: "both",
-    opts: t,
-}, {
-    init(ctx, cfg) {
-        console.log("Logger initialized");
-    },
-    namespace: {
-        alias: "obs", // ✅ Typed as 'log' without 'as const'!
-        getHandlers(ctx, cfg) {
-            return {
-                info(msg: string) {
-                    console.log("[INFO]", msg);
-                },
-                error(msg: string) {
-                    console.error("[ERROR]", msg);
-                },
-                debug(msg: string) {
-                    console.debug("[DEBUG]", msg);
-                },
-            };
-        },
-    },
-});
-
 export const Logger = new LoggerPlugin({
     "mode": "json",
 });

@@ -9,15 +9,15 @@ export type PluginType = "consumer" | "producer" | "both";
  * Consumer level ctx to the event-bus
  */
 export type ConsumerCtx = {
-    subscribe(): void;
-    on(): void;
+    subscribe(handler: (event: EventData) => void): void;
+    on(eventType: string, handler: (event: EventData) => void): void;
 };
 
 /**
  * Producer level ctx to the event-bus
  */
 export type ProducerCtx = {
-    emit(): void;
+    emit(event: EventData): Promise<void>;
 };
 
 /**
@@ -101,6 +101,7 @@ export type ExtractPluginType<P> = P extends
     : never;
 
 import { type Plugin } from "./plugin";
+import { EventData } from "./event-types";
 
 /**
  * Infer/Unwrap the deep type of a given Plugin class instance
