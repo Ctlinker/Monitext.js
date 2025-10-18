@@ -113,3 +113,18 @@ export type InferPluginInstance<T> = T extends Plugin<
     infer _X
 > ? T
     : never;
+
+/**
+ * THIS GENERIC PLUGIN IS NOT MEANT TO BE EXTENDED FROM, AS IS IT'S TOO UNSTABLE
+ */
+export type AnyPluginInstance = Plugin<
+    string,
+    Schema | undefined,
+    PluginDescriptor<string, Schema | undefined>,
+    string | undefined,
+    PluginMethods<
+        PluginType,
+        Schema | undefined,
+        string
+    >
+>;
