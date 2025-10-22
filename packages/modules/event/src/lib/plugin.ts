@@ -48,6 +48,9 @@ export abstract class Plugin<
         store: RealInstanceOpts;
     };
 
+    get config() {
+        return this.#config.store;
+    }
     /**
      * Api for config override
      */
@@ -132,6 +135,7 @@ const LoggerPlugin = createPlugin({
     },
     namespace: {
         alias: "log", // ✅ Typed as 'log' without 'as const'!
+        events: [""],
         getHandlers(ctx, cfg) {
             return {
                 info(msg: string) {

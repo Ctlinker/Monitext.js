@@ -1,8 +1,3 @@
-import { AnyPluginInstance } from "./plugin-types";
-
-/**
- * Event data structure
- */
 export interface EventData<T = any> {
     type: string;
     payload: T;
@@ -10,11 +5,9 @@ export interface EventData<T = any> {
     metadata?: Record<string, any>;
 }
 
-/**
- * Hook handler for intercepting data flow
- */
-
 type HookHandler = (e: EventData) => void | Promise<void>;
+
+import { type Plugin } from "./plugin-class";
 
 export interface BusHookOptions {
     handlers: {
@@ -22,7 +15,7 @@ export interface BusHookOptions {
         emit?: HookHandler[];
         general?: HookHandler[]; // Optional catch-all or middleware-like
     };
-    plugins?: AnyPluginInstance[];
+    plugins?: (Plugin<any>)[];
     meta?: {
         description?: string;
         priority?: number;

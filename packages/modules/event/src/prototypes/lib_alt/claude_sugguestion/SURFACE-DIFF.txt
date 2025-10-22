@@ -1,0 +1,104 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                 MVP SPEC vs lib_alt - SURFACE DIFFERENCES                  ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+OVERALL SIMILARITY: 70%
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ PLUGIN CREATION                                                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│ MVP:      prettyPrint({ mode: "json" })                                │
+│ lib_alt:  new PrettyPrint({ mode: "json" })                            │
+│ Status:   ⚠️  DIFFERENT - Factory vs Class                              │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ MONITOR INIT                                                            │
+├─────────────────────────────────────────────────────────────────────────┤
+│ MVP:      new Monitor({ plugins: [...] })                              │
+│ lib_alt:  new Monitor({ plugins: [...] })                              │
+│ Status:   ✅ IDENTICAL                                                   │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ NAMESPACE ACCESS                                                        │
+├─────────────────────────────────────────────────────────────────────────┤
+│ MVP:      const { obs } = bus.plugins()                                │
+│ lib_alt:  const { obs } = monitor.namespaces()                         │
+│ Status:   ⚠️  MINOR - Method name differs                               │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ RULES SYSTEM                                                            │
+├─────────────────────────────────────────────────────────────────────────┤
+│ MVP:      bus.rules({ ... })                                           │
+│ lib_alt:  ❌ NOT IMPLEMENTED                                            │
+│ Status:   ❌ CRITICAL - Entire feature missing                          │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ HOOK SYSTEM                                                             │
+├─────────────────────────────────────────────────────────────────────────┤
+│ MVP:      bus.hook("id", { onEmit(data) { data.merge(...) } })        │
+│ lib_alt:  monitor.hook("id", { handlers: { emit: [fn] } })            │
+│ Status:   ⚠️  SIGNIFICANT - API structure differs                       │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ EVENT SUBSCRIPTION                                                      │
+├─────────────────────────────────────────────────────────────────────────┤
+│ MVP:      ctx.subscribe(handler) / ctx.on(type, handler)               │
+│ lib_alt:  ctx.subscribe(handler) / ctx.on(type, handler)               │
+│ Status:   ✅ IDENTICAL                                                   │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ EVENT EMISSION                                                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│ MVP:      ctx.emit({ type, payload })                                  │
+│ lib_alt:  ctx.emit({ type, payload, timestamp: Date.now() })           │
+│ Status:   ⚠️  MINOR - Explicit timestamp required                       │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ FEATURE COMPLETENESS                                                    │
+├─────────────────────────────────────────────────────────────────────────┤
+│ ✅ Monitor class                                                        │
+│ ✅ Plugin system (consumer/producer/both)                               │
+│ ✅ Namespaces (different method name)                                   │
+│ ✅ Context API (subscribe/emit/on)                                      │
+│ ✅ Configuration system                                                 │
+│ ⚠️  Hooks (different API structure)                                     │
+│ ❌ Rules system                                                         │
+│ ❌ Event data methods (merge/read)                                      │
+│ ⚠️  Factory pattern (uses classes)                                      │
+└─────────────────────────────────────────────────────────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                           COMPATIBILITY SCORES                             ║
+╠════════════════════════════════════════════════════════════════════════════╣
+║  Conceptual Match:        95% ██████████████████████████████████▓░░░░░    ║
+║  API Surface Match:       65% ████████████████████████▓░░░░░░░░░░░░░░░    ║
+║  Feature Completeness:    70% ██████████████████████████▓░░░░░░░░░░░░░    ║
+║  Developer Experience:    60% ██████████████████████▓░░░░░░░░░░░░░░░░░    ║
+║  ─────────────────────────────────────────────────────────────────────     ║
+║  OVERALL:                 70% ██████████████████████████▓░░░░░░░░░░░░░    ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+KEY GAPS TO MVP SPEC:
+  1. ❌ Rules system completely missing (CRITICAL)
+  2. ⚠️  Hook API structure differs significantly
+  3. ⚠️  Plugin instantiation uses classes not factories
+  4. ❌ No data.merge() / data.read() methods
+  5. ⚠️  plugins() renamed to namespaces()
+
+ADVANTAGES OF lib_alt:
+  ✅ More explicit (classes over factories)
+  ✅ Simpler event data structure
+  ✅ Flexible hook arrays
+  ✅ Strong TypeScript inference
+  ✅ Clear separation of concerns
+
+ESTIMATED EFFORT TO FULL MVP COMPLIANCE: 12-16 hours
+
+See MVP-COMPARISON.md for detailed analysis.
