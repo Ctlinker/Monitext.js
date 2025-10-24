@@ -26,3 +26,8 @@ export type SortedHooks = {
     hookId: string;
     handlers: ((event: EventData) => void | Promise<void>)[];
 }[];
+
+export interface Rule {
+    targets: (Plugin<any> | symbol)[];
+    receiveEvent?: (string | RegExp | ((event: EventData) => boolean))[];
+}

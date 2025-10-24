@@ -1,5 +1,6 @@
+import { RuleManager } from "./bus-rule";
 import { createContext, primitiveObjClone } from "./bus-tools";
-import { BusHookOptions, EventData } from "./bus-types";
+import { BusHookOptions, EventData, Rule } from "./bus-types";
 import { Connection } from "./connection";
 import {
     InferPluginContext,
@@ -27,6 +28,7 @@ export class Monitor<P extends (InferPluginInstance<any>)[]> {
         Connection<P[number]>
     >();
 
+    private ruleManager = new RuleManager();
     private hookManager = new HookManager();
 
     /**
@@ -276,28 +278,32 @@ export class Monitor<P extends (InferPluginInstance<any>)[]> {
 
         // Route to specific event subscribers/type handlers
         await Promise.allSettled(
-            Array.from(this.connections.values()).map(
-                async (connection) => {
-                    const clonedEvent = primitiveObjClone(event);
+            Array.from(this.connections.values())
+                .filter((connection) =>
+                    this.ruleManager.canReceive(connection, event)
+                )
+                .map(
+                    async (connection) => {
+                        const clonedEvent = primitiveObjClone(event);
 
-                    await this.hookManager.executeMultipleHooks({
-                        hookTypes: ["receive"],
-                        event: clonedEvent,
-                        sourceSignature,
-                        hookProvider: connection.getAllHooks(),
-                    });
+                        await this.hookManager.executeMultipleHooks({
+                            hookTypes: ["receive"],
+                            event: clonedEvent,
+                            sourceSignature,
+                            hookProvider: connection.getAllHooks(),
+                        });
 
-                    await this.executeSubscribers(
-                        clonedEvent,
-                        connection.globalSubscribers,
-                    );
+                        await this.executeSubscribers(
+                            clonedEvent,
+                            connection.globalSubscribers,
+                        );
 
-                    await this.executeEventHandlers(
-                        clonedEvent,
-                        connection.eventHandlers,
-                    );
-                },
-            ),
+                        await this.executeEventHandlers(
+                            clonedEvent,
+                            connection.eventHandlers,
+                        );
+                    },
+                ),
         );
     }
 
@@ -334,6 +340,10 @@ export class Monitor<P extends (InferPluginInstance<any>)[]> {
                 }
             }
         }
+    }
+
+    public rule(param: Rule) {
+        this.ruleManager.rule(param);
     }
 
     public hook(hookId: string, param: BusHookOptions): void {
