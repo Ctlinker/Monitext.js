@@ -1,4 +1,4 @@
-import { PluginType } from "../lib_claude_alt";
+import { PluginType } from "../lib:v2-claude";
 import { EventData } from "./bus-types";
 import { InferPluginContext } from "./plugin-types";
 
