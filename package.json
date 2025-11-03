@@ -36,6 +36,7 @@
     "@monitext-devtools/bundler": "workspace:*",
     "@monitext-devtools/paths": "workspace:*",
     "@monitext-devtools/scripts": "workspace:*",
-    "@monitext-devtools/tsconfig": "workspace:*"
+    "@monitext-devtools/tsconfig": "workspace:*",
+    "typson": "link:../../../.local/share/pnpm/global/5/node_modules/@monitext/typson"
   }
 }
