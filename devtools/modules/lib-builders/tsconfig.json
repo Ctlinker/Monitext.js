@@ -1,0 +1,4 @@
+{
+	"extends": "@monitext-dev/tsconfig",
+	"include": ["./src/**/*"]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@monitext-dev/scripts",
+  "version": "1.0.0",
+  "description": "development scripts helper",
+  "private": true,
+  "bin": {
+    "mtxt-scripts": "./src/main.ts"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@10.13.1",
+  "dependencies": {
+    "commander": "^14.0.0",
+    "dts-minify": "^0.3.3",
+    "inquirer": "^12.9.2",
+    "jsdom": "^26.1.0"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.7"
+  }
+}

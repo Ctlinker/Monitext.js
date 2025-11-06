@@ -1,0 +1,20 @@
+{
+  "name": "@monitext-dev/builder",
+  "version": "0.0.1",
+  "private": true,
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "type": "module",        
+  "scripts": {
+    "build": "tsup src/main.ts --format esm,cjs --dts",
+    "dev": "tsup src/main.ts --watch --format esm,cjs --dts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "esbuild": "^0.25.12",
+    "tsup": "^8.5.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}

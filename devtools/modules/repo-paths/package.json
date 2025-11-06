@@ -1,0 +1,11 @@
+{
+  "name": "@monitext-dev/paths",
+  "version": "1.0.0",
+  "description": "sub package for path management",
+  "main": "./src/index.ts",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.14.0"
+}
