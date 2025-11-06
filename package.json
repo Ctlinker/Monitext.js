@@ -1,41 +1,54 @@
 {
-  "name": "project-monitext",
-  "version": "0.0.0",
-  "description": "Monitext aim to be an all in one monitoring solution for js based applications. It provides a simple and easy to use interface to monitor your applications and get notified when something goes wrong.",
-  "scripts": {
-    "scripts": "mtxt-scripts",
-    "test": "pnpm dlx vitest",
-    "format": "prettier --write 'packages/**/*.{js,ts,json,md}'",
-    "check-format": "prettier --check 'packages/**/*.{js,ts,json,md}'",
-    "changeset": "changeset"
-  },
-  "keywords": [
-    "monitoring",
-    "javascript",
-    "nodejs",
-    "bun",
-    "deno",
-    "typescript",
-    "notifications",
-    "alerts"
-  ],
-  "author": "Ctlinker <linkeris404@gmail.com>",
-  "license": "Apache-2.0",
-  "packageManager": "pnpm@10.14.0",
-  "devDependencies": {
-    "@changesets/cli": "^2.29.7",
-    "@types/bun": "^1.2.21",
-    "@types/deno": "2.3.0",
-    "@types/node": "24.3.0",
-    "prettier": "^3.6.2",
-    "tsx": "4.20.5",
-    "typescript": "^5.9.2",
-    "vitest": "3.1.2"
-  },
-  "dependencies": {
-    "@monitext-dev/builder": "workspace:*",
-    "@monitext-dev/paths": "workspace:*",
-    "@monitext-dev/scripts": "workspace:*",
-    "@monitext-dev/tsconfig": "workspace:*"
-  }
+	"name": "project-monitext",
+	"version": "0.0.0",
+	"description": "Monitext aim to be an all in one monitoring solution for js based applications. It provides a simple and easy to use interface to monitor your applications and get notified when something goes wrong.",
+	"scripts": {
+		"scripts": "mtxt-scripts",
+		"test": "pnpm dlx vitest",
+		"format": "prettier --write 'packages/**/*.{js,ts,json,md}'",
+		"check-format": "prettier --check 'packages/**/*.{js,ts,json,md}'",
+		"changeset": "changeset",
+		"syncpack": "syncpack"
+	},
+	"keywords": [
+		"monitext",
+		"logging",
+		"monitoring",
+		"observability",
+		"javascript",
+		"typescript",
+		"nodejs",
+		"bun",
+		"deno",
+		"cli",
+		"sdk",
+		"devtools",
+		"developer-tools",
+		"log-management",
+		"alerting",
+		"notifications",
+		"dashboard",
+		"analytics",
+		"system-monitoring",
+		"error-tracking",
+		"runtime-logging"
+	],
+	"author": "Ctlinker <linkeris404@gmail.com>",
+	"license": "Apache-2.0",
+	"packageManager": "pnpm@10.14.0",
+	"devDependencies": {
+		"@monitext-dev/builder": "workspace:*",
+		"@monitext-dev/paths": "workspace:*",
+		"@monitext-dev/scripts": "workspace:*",
+		"@monitext-dev/tsconfig": "workspace:*",
+		"@changesets/cli": "^2.29.7",
+		"@types/bun": "^1.2.21",
+		"@types/deno": "2.3.0",
+		"@types/node": "24.3.0",
+		"prettier": "^3.6.2",
+		"tsx": "4.20.5",
+		"typescript": "^5.9.2",
+		"vitest": "3.1.2",
+		"syncpack": "^13.0.4"
+	}
 }
