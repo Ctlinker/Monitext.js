@@ -1,7 +1,7 @@
 {
   "name": "project-monitext",
   "version": "0.0.0",
-  "description": "Monitext is an all in one monitoring solution for js based applications. It provides a simple and easy to use interface to monitor your applications and get notified when something goes wrong.",
+  "description": "Monitext aim to be an all in one monitoring solution for js based applications. It provides a simple and easy to use interface to monitor your applications and get notified when something goes wrong.",
   "scripts": {
     "scripts": "mtxt-scripts",
     "test": "pnpm dlx vitest",
@@ -33,10 +33,9 @@
     "vitest": "3.1.2"
   },
   "dependencies": {
-    "@monitext-devtools/bundler": "workspace:*",
-    "@monitext-devtools/paths": "workspace:*",
-    "@monitext-devtools/scripts": "workspace:*",
-    "@monitext-devtools/tsconfig": "workspace:*",
-    "typson": "link:../../../.local/share/pnpm/global/5/node_modules/@monitext/typson"
+    "@monitext-dev/builder": "workspace:*",
+    "@monitext-dev/paths": "workspace:*",
+    "@monitext-dev/scripts": "workspace:*",
+    "@monitext-dev/tsconfig": "workspace:*"
   }
 }

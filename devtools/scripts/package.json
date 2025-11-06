@@ -1,5 +1,5 @@
 {
-  "name": "@monitext-devtools/scripts",
+  "name": "@monitext-dev/scripts",
   "version": "1.0.0",
   "description": "development scripts helper",
   "private": true,
@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
     "commander": "^14.0.0",

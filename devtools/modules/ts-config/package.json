@@ -1,5 +1,5 @@
 {
-  "name": "@monitext-devtools/tsconfig",
+  "name": "@monitext-dev/tsconfig",
   "version": "1.0.0",
   "main": "./tsconfig.json",
   "private": true,
