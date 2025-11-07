@@ -1,6 +1,7 @@
 #Editor
 .vscode
 .zed
+.temp
 
 #Lock
 **/pnpm-lock.yaml
