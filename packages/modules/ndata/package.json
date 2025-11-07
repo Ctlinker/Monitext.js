@@ -1,0 +1,62 @@
+{
+	"name": "@monitext/ndata",
+	"version": "0.0.0",
+	"description": "Utility helpers for working with typed result objects and primitive data structures (Result, PrimitiveStruct, and helpers). Zero-dependency, TypeScript-first.",
+	"type": "module",
+	"main": "./dist/main.cjs",
+	"module": "./dist/main.js",
+	"types": "./dist/main.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/main.d.ts",
+			"import": "./dist/main.js",
+			"require": "./dist/main.cjs",
+			"default": "./dist/main.js"
+		},
+		"./dist/*": "./dist/*",
+		"./src/*": "./src/*",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"src",
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
+	"scripts": {
+		"format": "pnpm prettier --write './**/*.{js,ts,json,md}'",
+		"typecheck": "pnpm tsc --noEmit -p ./tsconfig.build.json",
+		"bundle": "pnpm tsx build.ts",
+		"test": "pnpm vitest run",
+		"build": "pnpm run typecheck && pnpm run test && pnpm run format && pnpm run bundle"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Ctlinker/Monitext.js.git",
+		"directory": "packages/modules/ndata"
+	},
+	"keywords": [
+		"monitext",
+		"ndata",
+		"result",
+		"result-type",
+		"typescript",
+		"utility",
+		"primitive",
+		"struct",
+		"error-handling"
+	],
+	"author": "Ctlinker <linkeris404@gmail.com>",
+	"license": "Apache-2.0",
+	"packageManager": "pnpm@10.14.0",
+	"engines": {
+		"node": ">=18"
+	},
+	"devDependencies": {
+		"@types/node": "^24.10.0",
+		"tsx": "4.20.5",
+		"vitest": "3.1.2",
+		"prettier": "^3.6.2"
+	},
+	"dependencies": {}
+}
