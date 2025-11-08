@@ -1,0 +1,22 @@
+{
+  "name": "@monitext/typsert",
+  "version": "0.0.0",
+  "description": "typsert is type-level testing library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "packageManager": "pnpm@10.19.0",
+  "dependencies": {
+    "@monitext/nprint": "0.0.1",
+    "chokidar": "^4.0.3",
+    "commander": "^14.0.2",
+    "fast-glob": "^3.3.3",
+    "highlight.js": "^11.11.1",
+    "ts-morph": "^27.0.2"
+  }
+}
