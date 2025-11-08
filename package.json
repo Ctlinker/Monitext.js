@@ -2,6 +2,7 @@
 	"name": "project-monitext",
 	"version": "0.0.0",
 	"description": "Monitext aim to be an all in one monitoring solution for js based applications. It provides a simple and easy to use interface to monitor your applications and get notified when something goes wrong.",
+	"private":"true",
 	"scripts": {
 		"scripts": "mtxt-scripts",
 		"test": "pnpm dlx vitest",
@@ -37,10 +38,10 @@
 	"license": "Apache-2.0",
 	"packageManager": "pnpm@10.14.0",
 	"devDependencies": {
-		"@monitext-dev/builder": "0.0.1",
-		"@monitext-dev/paths": "1.0.0",
-		"@monitext-dev/scripts": "1.0.0",
-		"@monitext-dev/tsconfig": "1.0.0",
+    "@monitext-dev/builder": "workspace:0.0.1",
+    "@monitext-dev/paths": "workspace:1.0.0",
+    "@monitext-dev/scripts": "workspace:1.0.0",
+    "@monitext-dev/tsconfig": "workspace:1.0.0",
 		"@changesets/cli": "^2.29.7",
 		"@types/bun": "^1.3.1",
 		"@types/deno": "^2.5.0",
