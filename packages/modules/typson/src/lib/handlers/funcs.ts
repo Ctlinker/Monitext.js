@@ -59,7 +59,7 @@ type InferFn<Param, Result> = Param extends never | null | undefined
  * ```
  */
 type InferFnMultiParam<Params, Result> =
-  Params extends readonly (infer P)[]
+  Params extends readonly (infer _P)[]
     ? (...args: {
         [K in keyof Params]:
           Params[K] extends { required?: infer X extends boolean; schema: infer S extends JSONSchema }
